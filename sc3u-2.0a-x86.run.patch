@@ -1,0 +1,72 @@
+--- sc3u-2.0a-x86.run	2016-09-05 07:30:59.000000000 +0200
++++ sc3u-2.0a-x86.run	2017-11-15 12:28:02.635226616 +0100
+@@ -1,10 +1,14 @@
+ #! /bin/sh
+-skip=176
++skip=180
+ # This script was generated using Makeself 1.5.4
+-CRCsum=2069455402
++CRCsum=1151330528
+ MD5=00000000000000000000000000000000
+ label="SimCity 3000 Unlimited 2.0a Update"
+-script=./update.sh
++if [ `uname -m` == "x86_64" ]; then
++  script="linux32 ./update.sh"
++else
++  script=./update.sh
++fi
+ targetdir=sc3u-2.0a-x86
+ scriptargs=""
+ keep=n
+@@ -48,11 +52,11 @@
+ fi
+ if [ "$1" = "--list" ]; then
+ 	echo Target directory: $targetdir
+-	tail +$skip $0  | gzip -cd | tar tvf -
++	tail -n +$skip $0  | gzip -cd | tar tvf -
+ 	exit 0;
+ fi
+ if [ "$1" = "--check" ]; then
+-sum1=`tail +6 $0 | cksum | sed -e 's/ /Z/' -e 's/	/Z/' | cut -dZ -f1`
++sum1=`tail -n +6 $0 | cksum | sed -e 's/ /Z/' -e 's/	/Z/' | cut -dZ -f1`
+ [ $sum1 -ne $CRCsum ] && {
+   echo Error in checksums $sum1 $CRCsum
+   exit 2;
+@@ -67,7 +71,7 @@
+     fi
+   done
+   if [ -x $MD5_PATH/md5 ]; then
+-    md5sum=`tail +6 $0 | $MD5_PATH/md5`;
++    md5sum=`tail -n +6 $0 | $MD5_PATH/md5`;
+     [ $md5sum != $MD5 ] && {
+       echo Error in md5 sums $md5sum $MD5
+       exit 2;
+@@ -126,7 +130,7 @@
+ location=`pwd`
+ echo=echo; [ -x /usr/ucb/echo ] && echo=/usr/ucb/echo
+ $echo -n Verifying archive integrity...
+-sum1=`tail +6 $0 | cksum | sed -e 's/ /Z/' -e 's/	/Z/' | cut -dZ -f1`
++sum1=`tail -n +6 $0 | cksum | sed -e 's/ /Z/' -e 's/	/Z/' | cut -dZ -f1`
+ [ $sum1 -ne $CRCsum ] && {
+   $echo Error in check sums $sum1 $CRCsum
+   eval $finish; exit 2;
+@@ -142,7 +146,7 @@
+     fi
+   done
+   if [ -x $MD5_PATH/md5 ]; then
+-    md5sum=`tail +6 $0 | $MD5_PATH/md5`;
++    md5sum=`tail -n +6 $0 | $MD5_PATH/md5`;
+     [ $md5sum != $MD5 ] && {
+       $echo Error in md5 sums $md5sum $MD5
+       eval $finish; exit 2;
+@@ -151,8 +155,8 @@
+ fi
+ $echo -n "Uncompressing $label"
+ cd $tmpdir
+-[ "$keep" = y ] || trap 'cd /tmp; /bin/rm -rf $tmpdir; exit $res'
+-if ( (cd $location; tail +$skip $0; ) | gzip -cd |      { tar xvf - || failed=y ; } |  (while read a; do $echo -n .; done; echo; )); then
++[ "$keep" = y ] || trap 'cd /tmp; /bin/rm -rf $tmpdir; exit $res' 1 2 3 6
++if ( (cd $location; tail -n +$skip $0; ) | gzip -cd |      { tar xvf - || failed=y ; } |  (while read a; do $echo -n .; done; echo; )); then
+ 	if [ x$failed = xy ]; then
+ 		echo 'File extraction failed!'; cd /tmp; /bin/rm -rf $tmpdir; eval $finish; exit 1
+ 	fi
