@@ -1,3 +1,5 @@
+[Versión en Castellano](README-ES.md)
+
 # Native SimCity 3000 Unlimited for modern GNU/Linux distributions
 
 This is just one of the results of a [project](https://hackweek.suse.com/16/projects/old-games-on-modern-linux) for the [16th SUSE Hackweek](https://hackweek.suse.com/16/projects).
