@@ -63,7 +63,7 @@ Provided that there were no errors, you are ready to run SimCity 3000.
 
 Yes, if you are using [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) (most people at this moment), there is a final step.
 
-Since the game requires OSS (so far I was not able to make it work with padsp, aoss or esdcompat), you will need to use a software that is able to emulate OSS devices and send the audio to Pulseaudio.
+Since the game requires OSS (so far I was not able to make it work with padsp, aoss or esdcompat), you will need to use a software that is able to emulate OSS devices and send the audio to PulseAudio.
 
 You need [osspd](https://sourceforge.net/projects/osspd/).
 
@@ -73,7 +73,7 @@ You can proceed to [openSUSE downloads](https://software.opensuse.org/download.h
 
 #### Debian/Ubuntu
 
-Install osspd and the backend for pulseaudio:
+Install osspd and the backend for PulseAudio:
 
 ```bash
 apt-get install osspd osspd-pulseaudio
