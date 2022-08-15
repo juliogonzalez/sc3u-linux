@@ -48,6 +48,13 @@ Usa las rutas por defecto para la instalación cuando sean solicitadas, y respon
 
 Clona este repositorio (si estás leyendo esto fichero desde el interfaz web de GitHub), y ve al directorio donde la copia local esté (usando un terminal).
 
+Asegúrate de tener installadas las herramientas requeridas. Los nombres de los paquetes que las proveen depende de tu distribución:
+
+- curl
+- cat
+- patch
+- tar
+
 Ejecuta:
 
 ```bash

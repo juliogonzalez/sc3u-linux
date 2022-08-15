@@ -50,6 +50,13 @@ Use the default paths for installation when required, and answer **y** to the di
 
 Clone this repository (if you are reading this file at GitHub WebUI), and proceed to the directory where the local clone is stored (using a terminal)
 
+Make sure you have the required tools installed. The names of the packages that provides them depends on your distributions:
+
+- curl
+- cat
+- patch
+- tar
+
 Run:
 
 
