@@ -6,11 +6,11 @@
 +skip=180
  # This script was generated using Makeself 1.5.4
 -CRCsum=2069455402
-+CRCsum=1151330528
++CRCsum=838330230
  MD5=00000000000000000000000000000000
  label="SimCity 3000 Unlimited 2.0a Update"
 -script=./update.sh
-+if [ `uname -m` == "x86_64" ]; then
++if test `uname -m` = 'x86_64'; then
 +  script="linux32 ./update.sh"
 +else
 +  script=./update.sh
