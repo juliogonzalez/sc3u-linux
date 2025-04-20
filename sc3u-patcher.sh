@@ -6,15 +6,15 @@ SC3U_PATH='/usr/local/games/SC3U'
 # Check for required programs
 RPROGRAMS="curl cat patch tar"
 for RPROGRAM in ${RPROGRAMS}; do
-  if [ "$(which ${RPROGRAM} &> /dev/null; echo ${?})" != "0" ]; then
+  if test "$(which ${RPROGRAM})" = ''; then
     echo "ERROR: Required binary ${RPROGRAM} not found. Install it to proceed"
     exit 1
   fi
 done
 
 # Download sc3u patch
-if [ ! -f ${PATCH_FNAME} ]; then
-  curl http://updates.lokigames.com/sc3u/${PATCH_FNAME} -o ${PATCH_FNAME}
+if test ! -f ${PATCH_FNAME}; then
+  curl -L https://updates.lokigames.com/sc3u/${PATCH_FNAME} -o ${PATCH_FNAME}
 fi
 
 # Fix compatibility problems
@@ -37,8 +37,8 @@ sudo cp sc3u ${SC3U_PATH}/sc3u
 sudo chmod +x ${SC3U_PATH}/sc3u
 
 # Download and install loki compat libary
-if [ ! -f ${LOKI_COMPAT} ]; then
-  curl http://www.improbability.net/loki/${LOKI_COMPAT} -o ${LOKI_COMPAT}
+if test ! -f ${LOKI_COMPAT}; then
+  curl -L https://www.improbability.net/loki/${LOKI_COMPAT} -o ${LOKI_COMPAT}
 fi
 sudo tar -xjf ${LOKI_COMPAT} -C ${SC3U_PATH}
 
