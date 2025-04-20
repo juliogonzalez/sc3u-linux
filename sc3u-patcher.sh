@@ -6,7 +6,7 @@ SC3U_PATH='/usr/local/games/SC3U'
 # Check for required programs
 RPROGRAMS="curl cat patch tar"
 for RPROGRAM in ${RPROGRAMS}; do
-  if test "$(which ${RPROGRAM})" = ''; then
+  if test `which ${RPROGRAM}` = ''; then
     echo "ERROR: Required binary ${RPROGRAM} not found. Install it to proceed"
     exit 1
   fi
