@@ -98,3 +98,42 @@ apt-get install osspd osspd-pulseaudio
   ```bash
   sudo update-rc.d osspd enable
   ```
+
+### Pantallas panorámicas y altas resoluciones
+
+Por defecto SimCity 3000 solo ofrece unas pocas resoluciones 4:3 al arrancar. El
+script auxiliar `sc3u-widescreen.sh` aplica un parche reversible a
+`sc3u.dynamic` que:
+
+- evita que `FixStartupResolutionValuesIfNeeded` sustituya las resoluciones de
+  arranque no soportadas por un modo 4:3 de reserva;
+- hace que `IsStartupResolutionOK` acepte la resolución de arranque solicitada;
+- sustituye tres modos 4:3 altos por modos panorámicos: `1152x864` ->
+  `1280x720`, `1280x1024` -> `1920x1080` y `1600x1200` -> `2560x1440`.
+
+Ejecútalo después de parchear el juego:
+
+```bash
+sudo ./sc3u-widescreen.sh
+```
+
+Después inicia el juego y elige la resolución en las opciones de vídeo/pantalla
+del juego. Elige solo un modo que tu pantalla soporte de verdad. El ancho y el
+alto deben ser divisibles por 8; modos como `1366x768`, `1600x900` y `1440x900`
+se sabe que provocan caídas. La interfaz del juego no escala, por lo que se verá
+pequeña en pantallas de alta resolución.
+
+El script guarda una copia del binario original en `sc3u.dynamic.orig` la
+primera vez que se aplica. Usa:
+
+```bash
+./sc3u-widescreen.sh --status
+./sc3u-widescreen.sh --revert
+```
+
+para comprobar o deshacer el parche. Si el juego está instalado en otro sitio
+que no sea `/usr/local/games/SC3U`, indica `--path /ruta/a/SC3U` o define
+`SC3U_PATH`.
+
+El parche está basado en
+[lfbr0/simcity3000-linux-widescreen-patch](https://github.com/lfbr0/simcity3000-linux-widescreen-patch).
