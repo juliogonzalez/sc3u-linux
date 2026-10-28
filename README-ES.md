@@ -44,6 +44,8 @@ sudo linux32 ./setup.sh
 
 Usa las rutas por defecto para la instalación cuando sean solicitadas, y responde **y** a las diferentes preguntas sobre qué instalar (así no necesitarás el CD o la ISO para jugar).
 
+En algunas distribuciones modernas de 64 bits (por ejemplo Ubuntu 24.04 amd64) el instalador original puede fallar o instalar solo los ficheros de datos. El parcheador de abajo completa los binarios y bibliotecas que falten desde el CD/ISO montado.
+
 ### Parchea el juego
 
 Clona este repositorio (si estás leyendo esto fichero desde el interfaz web de GitHub), y ve al directorio donde la copia local esté (usando un terminal).
@@ -54,24 +56,48 @@ Asegúrate de tener installadas las herramientas requeridas. Los nombres de los 
 - cat
 - patch
 - tar
+- install (coreutils)
+- linux32 (util-linux)
 
-Ejecuta:
+Con el CD/ISO montado en `/mnt`, ejecuta:
 
 ```bash
-./sc3u-patcher.sh
+sudo ./sc3u-patcher.sh
 ```
 
-El script se ocupará de todo, solicitando tu clave para usar sudo cuando sea necesario. Ejecutará el parche oficial 2.0 para Simcity 2.0 (después de parchearlo), así que solo necesitarás seguir el asistente.
+Si el CD/ISO está montado en otro sitio, indica `CDROM_PATH`:
 
-En el caso de que no haya errores estarás listo para ejecutar SimCity 3000.
+```bash
+sudo CDROM_PATH=/ruta/al/cdrom ./sc3u-patcher.sh
+```
+
+El script completa la instalación base si hace falta, aplica el parche oficial 2.0a, instala las bibliotecas de compatibilidad de Loki y crea el lanzador `sc3u`. Es seguro volver a ejecutarlo si algún paso falla.
+
+Antes de hacer cambios comprueba que el sonido OSS está disponible (existe `/dev/dsp` y `osspd` está en ejecución). En Debian/Ubuntu puedes configurar el sonido primero con `sudo ./sc3u-sound.sh`. Si no necesitas sonido, usa `--skip-sound-check`.
+
+En el caso de que no haya errores estarás listo para ejecutar SimCity 3000. Prueba primero en ventana:
+
+```bash
+sc3u -w
+```
+
+Si funciona, ejecuta `sc3u` para el modo pantalla completa.
 
 ### ¡Pero no tengo sonido!
 
-Si, si estás usando [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) (casi todo el mundo ahora mismo), hay un paso final.
+Si, si estás usando [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) o la compatibilidad con PulseAudio de PipeWire (casi todo el mundo ahora mismo), hay un paso final.
 
 Dado que el juego requiere OSS (hasta el momento no he sido capaz de hacer que funcione con padsp, aoss o esdcompat) necesitarás usar un programa que sea capaz de emular los dispositivos OSS y enviar el audio a PulseAudio.
 
 Necesitarás [osspd](https://sourceforge.net/projects/osspd/).
+
+En Debian/Ubuntu, `sc3u-sound.sh` instala osspd y su backend para PulseAudio, activa el servicio y comprueba `/dev/dsp`:
+
+```bash
+sudo ./sc3u-sound.sh
+```
+
+Usa `./sc3u-sound.sh --check` para comprobar la configuración. Para otras distribuciones, sigue leyendo.
 
 #### openSUSE/SUSE
 
@@ -79,10 +105,10 @@ Puedes ir a las [descargas de openSUSE](https://software.opensuse.org/download.h
 
 #### Debian/Ubuntu
 
-Install osspd y el backend para PulseAudio:
+Instala osspd y el backend para PulseAudio manualmente:
 
 ```bash
-apt-get install osspd osspd-pulseaudio
+sudo apt-get install osspd osspd-pulseaudio
 ```
 
 #### Arrancando osspd durante los inicios del ordenador
@@ -90,7 +116,7 @@ apt-get install osspd osspd-pulseaudio
 * systemd (openSUSE y Debian actual)
 
   ```bash
-  sudo systemctl enable osspd
+  sudo systemctl enable --now osspd
   ```
 
 * SysVinit (Debian)
